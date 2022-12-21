@@ -1,0 +1,9 @@
+id: 803
+name: "Vienna"
+country: "AT"nna"
+lon: 16.3721"
+lat: 48.2085"
+temp_min: -2.2685"
+temp_max: 1.24685"
+sunset: 1671634955
+sunrise: 1671604942

@@ -1,17 +1,24 @@
 ﻿#pragma comment (lib, "Ws2_32.lib")
 #include <Winsock2.h>
 #include <ws2tcpip.h>
-
+#include <fstream>
 #include <iostream>
 #include <string>
 using namespace std;
 
+ofstream file("Info_Weather.txt");
+char str[100];
+
 void FindWord(string& response, const string& find) {
     cout << find << ": ";
+    int j = 0;
     for (auto i = response.begin() + response.find(find) + find.length() + 2; *i != ',' && *i != '}'; ++i) {
         cout << *i;
+        str[j] = *i;
+        j++;
     }
     cout << '\n';
+    file << find << ": " << str << endl;
 }
 
 int main()
@@ -73,7 +80,15 @@ int main()
 
     //4. HTTP Request
 
-    string uri = "/data/2.5/weather?q=Odessa&appid=75f6e64d49db78658d09cb5ab201e483&units=metric";
+    string uri = "/data/2.5/weather?q=";
+    string uri_prt2 ="&appid=75f6e64d49db78658d09cb5ab201e483&units=metric";
+
+    string uri_city_prt;
+    cout << "Enter your city: ";
+    cin >> uri_city_prt;
+
+    uri += uri_city_prt;
+    uri += uri_prt2;
 
     string request = "GET " + uri + " HTTP/1.1\n"; 
     request += "Host: " + string(hostname) + "\n";
@@ -113,7 +128,7 @@ int main()
 
     } while (respLength == BUFFERSIZE);
 
-    cout << response << endl;
+    // cout << response << endl;
 
     cout << "\n\n";
     FindWord(response, "id");
